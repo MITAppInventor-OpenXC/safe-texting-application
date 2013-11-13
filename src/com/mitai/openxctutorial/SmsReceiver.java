@@ -1,4 +1,4 @@
-package com.ashley3.openxctutorial;
+package com.mitai.openxctutorial;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

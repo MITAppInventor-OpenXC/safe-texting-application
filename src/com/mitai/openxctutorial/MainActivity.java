@@ -1,7 +1,8 @@
-package com.ashley3.openxctutorial;
+package com.mitai.openxctutorial;
 
 import java.util.Locale;
 
+import com.ashley3.openxctutorial.R;
 import com.openxc.NoValueException;
 import com.openxc.VehicleManager;
 import com.openxc.measurements.IgnitionStatus;
