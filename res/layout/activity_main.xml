@@ -16,7 +16,8 @@
         <TextView
             android:id="@+id/vehicle_transmission_gear_position"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,7 +38,8 @@
         <TextView
             android:id="@+id/vehicle_ignition_status"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>
