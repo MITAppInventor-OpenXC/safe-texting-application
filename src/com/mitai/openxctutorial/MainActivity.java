@@ -2,7 +2,6 @@ package com.mitai.openxctutorial;
 
 import java.util.Locale;
 
-import com.ashley3.openxctutorial.R;
 import com.openxc.NoValueException;
 import com.openxc.VehicleManager;
 import com.openxc.measurements.IgnitionStatus;
@@ -63,8 +62,8 @@ public class MainActivity extends Activity implements OnInitListener{
 	private boolean shouldReadTextOutLoud() {
 		if(mIgnitionStatus==null || mGearPosition==null) return false;
 		return(!mIgnitionStatus.equals(IgnitionStatus.IgnitionPosition.OFF) && !mGearPosition.equals(TransmissionGearPosition.GearPosition.NEUTRAL));
-	}
-
+	} 
+ 
 	private ServiceConnection mConnection = new ServiceConnection() {
 		// Called when the connection with the service is established
 		public void onServiceConnected(ComponentName className, IBinder service) {
