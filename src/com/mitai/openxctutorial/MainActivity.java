@@ -21,6 +21,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +35,6 @@ public class MainActivity extends Activity implements OnInitListener{
 
 	private VehicleManager mVehicleManager;
 	private boolean mBound = false;
-
-	private TextView mShouldReadTextOutLoudView;
 
 	private TextView mIgnitionStatusView;
 	private IgnitionStatus.IgnitionPosition mIgnitionStatus;
@@ -58,12 +57,12 @@ public class MainActivity extends Activity implements OnInitListener{
 			setPosition(status);
 		}
 	};
-	
+
 	private boolean shouldReadTextOutLoud() {
 		if(mIgnitionStatus==null || mGearPosition==null) return false;
 		return(!mIgnitionStatus.equals(IgnitionStatus.IgnitionPosition.OFF) && !mGearPosition.equals(TransmissionGearPosition.GearPosition.NEUTRAL));
-	} 
- 
+	}
+
 	private ServiceConnection mConnection = new ServiceConnection() {
 		// Called when the connection with the service is established
 		public void onServiceConnected(ComponentName className, IBinder service) {
@@ -115,30 +114,30 @@ public class MainActivity extends Activity implements OnInitListener{
 		mIgnitionStatus = status.getValue().enumValue();
 		MainActivity.this.runOnUiThread(new Runnable() {
 			public void run() {
-				mIgnitionStatusView.setText("Vehicle ignition status (enum): "+mIgnitionStatus);
+				mIgnitionStatusView.setText("Vehicle ignition status: "+mIgnitionStatus);
+				if(!mIgnitionStatus.equals(IgnitionStatus.IgnitionPosition.OFF)){
+					((LinearLayout) findViewById(R.id.ignition_status_box)).setBackgroundColor(MainActivity.getInstance().getResources().getColor(R.color.red));
+				} else {
+					((LinearLayout) findViewById(R.id.ignition_status_box)).setBackgroundColor(MainActivity.getInstance().getResources().getColor(R.color.green));
+				}
 			}
 		});
-		setShouldReadOutLoud();
 	}
 
 	private void setPosition(TransmissionGearPosition status){
 		mGearPosition = status.getValue().enumValue();
 		MainActivity.this.runOnUiThread(new Runnable() {
 			public void run() {
-				mTransmissionGearPositionView.setText("Transmission gear position (enum): "+mGearPosition);
+				mTransmissionGearPositionView.setText("Transmission gear position: "+mGearPosition);
+				if(!mGearPosition.equals(TransmissionGearPosition.GearPosition.NEUTRAL)){
+					((LinearLayout) findViewById(R.id.gear_position_box)).setBackgroundColor(MainActivity.getInstance().getResources().getColor(R.color.red));
+				} else {
+					((LinearLayout) findViewById(R.id.gear_position_box)).setBackgroundColor(MainActivity.getInstance().getResources().getColor(R.color.green));
+				}
 			}
 		});
-		setShouldReadOutLoud();
 	}
 
-	private void setShouldReadOutLoud(){
-		MainActivity.this.runOnUiThread(new Runnable() {
-			public void run() {
-				mShouldReadTextOutLoudView.setText("Should read texts out loud? "+shouldReadTextOutLoud());
-			}
-		});
-	}
-	
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -175,7 +174,6 @@ public class MainActivity extends Activity implements OnInitListener{
 		mIgnitionStatusView.setText("Vehicle ignition status: waiting for input");
 		mTransmissionGearPositionView = (TextView) findViewById(R.id.vehicle_transmission_gear_position);
 		mTransmissionGearPositionView.setText("Transmission gear position: waiting for input");
-		mShouldReadTextOutLoudView = (TextView) findViewById(R.id.read_texts_out_loud_boolean);
 		Intent checkTTSIntent = new Intent();
 		checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
